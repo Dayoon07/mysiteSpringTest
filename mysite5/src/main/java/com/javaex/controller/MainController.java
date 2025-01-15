@@ -12,11 +12,5 @@ public class MainController {
 		System.out.println("MainController.main()");
 		return "/main/index";
 	}
-	
-	@RequestMapping(value = "/gallery", method = { RequestMethod.GET })
-	public String gallery() {
-		System.out.println("MainController.gallery()");
-		return "/gallery/list";
-	}
 
 }

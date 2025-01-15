@@ -81,24 +81,26 @@
 
 						<div id="paging">
 							<ul>
-								<c:if test="${currentPage > 1}">
-									<a href="${pageContext.request.contextPath}/board/listform?cPage=${currentPage - 1}&numPerPage=${numPerPage}">이전</a>
-								</c:if>
-							
-							    <c:forEach begin="1" end="${totalPages}" var="page">
-							    	<c:choose>
-							        	<c:when test="${page == currentPage}">
-							            	<strong>${page}</strong> <!-- 현재 페이지 강조 -->
-										</c:when>
-										<c:otherwise>
-							        		<a href="${pageContext.request.contextPath}/board/listform?cPage=${page}&numPerPage=${numPerPage}">${page}</a>
-							        	</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							
-							    <c:if test="${currentPage < totalPages}">
-							    	<a href="${pageContext.request.contextPath}/board/listform?cPage=${currentPage + 1}&numPerPage=${numPerPage}">다음</a>
-								</c:if>
+								<c:if test="${hasPrev}">
+						            <li>
+						                <a href="${pageContext.request.contextPath}/board/listform?cPage=${currentPage - 1}&numPerPage=${numPerPage}">&laquo; 이전</a>
+						            </li>
+						        </c:if>
+						
+						        <c:forEach var="pageNum" begin="${startPage}" end="${endPage}" step="1">
+						            <li>
+						                <a href="${pageContext.request.contextPath}/board/listform?cPage=${pageNum}&numPerPage=${numPerPage}" 
+						                   class="<c:if test='${pageNum == currentPage}'>pageNumBtn</c:if>">
+						                   ${pageNum}
+						                </a>
+						            </li>
+						        </c:forEach>
+						
+						        <c:if test="${hasNext}">
+						            <li>
+						                <a href="${pageContext.request.contextPath}/board/listform?cPage=${currentPage + 1}&numPerPage=${numPerPage}">다음 &raquo;</a>
+						            </li>
+						        </c:if>
 							</ul>
 
 							<div class="clear"></div>

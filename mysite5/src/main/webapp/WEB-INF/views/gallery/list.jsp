@@ -48,7 +48,7 @@
 					<div id="list">
 				
 						
-							<button id="btnImgUpload">이미지올리기</button>
+							<a href="${pageContext.request.contextPath}/gallery/imgUploadForm"><button id="btnImgUpload">이미지올리기</button></a>
 							<div class="clear"></div>
 
 				

@@ -37,6 +37,7 @@
 		]]>
 	</select>
 
+	<!-- 메인페이지 -->
 	<select id="exeList" resultType="BoardVo">
 	    SELECT * FROM board
 	    ORDER BY bno DESC

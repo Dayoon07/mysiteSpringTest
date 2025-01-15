@@ -3,6 +3,8 @@ package com.javaex.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,26 +29,33 @@ public class BoardController {
 	// 보드리스트폼
 	@RequestMapping(value = "/listform", method = { RequestMethod.GET, RequestMethod.POST })
 	public String listForm(Model model,
-							@RequestParam(defaultValue = "1") int cPage,
-							@RequestParam(defaultValue = "10") int numPerPage) {
+	                       @RequestParam(defaultValue = "1") int cPage,
+	                       @RequestParam(defaultValue = "10") int numPerPage) {
 
 	    int offset = (cPage - 1) * numPerPage;
 
-	    // 전체 게시글 수 조회
 	    int totalPosts = boardService.countTotalPosts();
-	    // 전체 페이지 수 계산
 	    int totalPages = (int) Math.ceil((double) totalPosts / numPerPage);
 
-	    // 페이징에 맞는 게시글 리스트 조회
 	    List<BoardVo> selectBoardList = boardService.exeList(offset, numPerPage);
 
-	    // 모델에 데이터 추가
+	    int blockSize = 5;
+	    int startPage = ((cPage - 1) / blockSize) * blockSize + 1;
+	    int endPage = Math.min(startPage + blockSize - 1, totalPages);
+
+	    boolean hasPrev = startPage > 1;
+	    boolean hasNext = endPage < totalPages;
+
 	    model.addAttribute("selectBoardList", selectBoardList);
 	    model.addAttribute("currentPage", cPage);
 	    model.addAttribute("totalPages", totalPages);
 	    model.addAttribute("numPerPage", numPerPage);
+	    model.addAttribute("startPage", startPage);
+	    model.addAttribute("endPage", endPage);
+	    model.addAttribute("hasPrev", hasPrev);
+	    model.addAttribute("hasNext", hasNext);
 
-	    return "/board/list"; // 결과 반환
+	    return "/board/list";
 	}
 
 	@RequestMapping(value = "/listform/search", method = { RequestMethod.GET, RequestMethod.POST })
@@ -112,9 +121,13 @@ public class BoardController {
 
 	// 보드등록폼
 	@RequestMapping(value = "/writeform", method = { RequestMethod.GET, RequestMethod.POST })
-	public String writeForm() {
+	public String writeForm(HttpSession s) {
 		System.out.println("BoardController.writeform");
-		return "/board/writeForm";
+		if (s.getAttribute("authUser") != null) {
+			return "/board/writeForm";
+		} else {
+			return "/user/loginForm";
+		}
 	}
 
 	// ==============================================================================================

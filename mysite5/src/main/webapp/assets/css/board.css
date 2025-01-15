@@ -246,6 +246,10 @@
 	float: right;
 }
 
+/* 페이지 버튼 강조 */
+.pageNumBtn {
+	font-weight: bold;
+}
 
 
 

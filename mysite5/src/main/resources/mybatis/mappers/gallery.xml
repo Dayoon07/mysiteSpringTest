@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gallery">
+
+	<resultMap type="GalleryVo" id="GalleryVo">
+		<result column="gallery_id" property="galleryId" />
+		<result column="filename" property="filename" />
+	</resultMap>
+	
+	<select id="imgSelect" resultType="GalleryVo">
+		SELECT * FROM gallery
+	</select>
+	
+	<insert id="imgUpload" parameterType="String">
+		INSERT INTO gallery(galleryId, writer, filename)
+		VALUES(gallery_seq.nextval, #{ writer }, #{ filename })
+	</insert>
+
+</mapper>
